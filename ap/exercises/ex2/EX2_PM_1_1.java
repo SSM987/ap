@@ -21,5 +21,6 @@ public class EX2_PM_1_1 {
         }
         for(int i = 0; i<k+2; i++)
             System.out.print('*');
+        s.close();
     }
 }
