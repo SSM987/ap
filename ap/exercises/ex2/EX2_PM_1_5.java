@@ -32,86 +32,82 @@ public class EX2_PM_1_5 {
         while (true) {
             int randomNumber = random.nextInt(4);
           switch(randomNumber){
-              case 0 :
-                  System.out.println("UP");
-                  break;
-              case 1 :
-                  System.out.println("RIGHT");
-                  break;
-              case 2 :
-                  System.out.println("DOWN");
-                  break;
-              case 3 :
-                  System.out.println("LEFT");
-                  break;
+                  case 0:
+                      System.out.println("UP");
+                      break;
+                  case 1:
+                      System.out.println("RIGHT");
+                      break;
+                  case 2:
+                      System.out.println("DOWN");
+                      break;
+                  case 3:
+                      System.out.println("LEFT");
+                      break;
+              }
+              if (MoveX(arr, randomNumber, k)) {
+                  PrintMatrix(arr);
+              }
+              try {
+                  Thread.sleep(1000);
+              } catch (Exception e) {
+              }
           }
-            for (int i = 0; i < k + 2; i++) {
-                for (int j = 0; j < k + 2; j++) {
-                    if (arr[i][j] == 'X') {
-                        switch (randomNumber) {
-                            case 0:
-                                if (arr[i - 1][j] == '*') {
-                                    System.out.println("hitting the game wall");
-                                } else {
-                                    arr[i - 1][j] = 'X';
-                                    arr[i][j] = ' ';
-                                    for (int a = 0; a < k + 2; a++) {
-                                        for (int b = 0; b < k + 2; b++) {
-                                            System.out.print(arr[a][b]);
-                                        }
-                                        System.out.println();
-                                    }
-                                }
-                                break;
-                            case 1:
-                                if (arr[i][j + 1] == '*') {
-                                    System.out.println("hitting the game wall");
-                                } else {
-                                    arr[i][j + 1] = 'X';
-                                    arr[i][j] = ' ';
-                                    for (int a = 0; a < k + 2; a++) {
-                                        for (int b = 0; b < k + 2; b++) {
-                                            System.out.print(arr[a][b]);
-                                        }
-                                        System.out.println();
-                                    }
-                                }
-                                break;
-                            case 2:
-                                if (arr[i + 1][j] == '*') {
-                                    System.out.println("hitting the game wall");
-                                } else {
-                                    arr[i + 1][j] = 'X';
-                                    arr[i][j] = ' ';
-                                    for (int a = 0; a < k + 2; a++) {
-                                        for (int b = 0; b < k + 2; b++) {
-                                            System.out.print(arr[a][b]);
-                                        }
-                                        System.out.println();
-                                    }
-                                }
-                                break;
-                            case 3:
-                                if (arr[i][j - 1] == '*') {
-                                    System.out.println("hitting the game wall");
-                                } else {
-                                    arr[i][j - 1] = 'X';
-                                    arr[i][j] = ' ';
-                                    for (int a = 0; a < k + 2; a++) {
-                                        for (int b = 0; b < k + 2; b++) {
-                                            System.out.print(arr[a][b]);
-                                        }
-                                        System.out.println();
-                                    }
-                                }
-                        }
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
+        }
+    public static void PrintMatrix(char[][] arr) {
+        for (char[] chars : arr) {
+            for (char aChar : chars) {
+                System.out.print(aChar);
+            }
+            System.out.println();
+        }
+    }
+    public static boolean MoveX(char[][] arr, int randomnumber, int k) {
+        for (int i = 0; i < k + 2; i++) {
+            for (int j = 0; j < k + 2; j++) {
+                if (arr[i][j] == 'X') {
+                    switch (randomnumber) {
+                        case 0:
+                            if (arr[i - 1][j] == '*') {
+                                System.out.println("hitting the game wall");
+                            } else {
+                                arr[i - 1][j] = 'X';
+                                arr[i][j] = ' ';
+                                return true;
+                            }
+                            return false;
+                        case 1:
+                            if (arr[i][j + 1] == '*') {
+                                System.out.println("hitting the game wall");
+                            } else {
+                                arr[i][j + 1] = 'X';
+                                arr[i][j] = ' ';
+                                return true;
+                            }
+                            return false;
+                        case 2:
+                            if (arr[i + 1][j] == '*') {
+                                System.out.println("hitting the game wall");
+                            } else {
+                                arr[i + 1][j] = 'X';
+                                arr[i][j] = ' ';
+                                return true;
+                            }
+                            return false;
+                        case 3:
+                            if (arr[i][j - 1] == '*') {
+                                System.out.println("hitting the game wall");
+                            } else {
+                                arr[i][j - 1] = 'X';
+                                arr[i][j] = ' ';
+                                return true;
+                            }
+                            return false;
                     }
                 }
+
             }
         }
+        return false;
     }
 }
