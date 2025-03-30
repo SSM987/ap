@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class EX2_PM_2_2 {
-    static int e=0;
+     public static int e=0;
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         Random random = new Random();
