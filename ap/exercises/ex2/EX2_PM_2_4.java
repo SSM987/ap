@@ -11,7 +11,7 @@ class PacmanEngine {
 long start;
 char[][] arr;
 String fileName;
- final int maxTime=10000;
+ final int maxTime=60000;
     public PacmanEngine(int k, int c) {
         this.k = k;
         this.c=c;
