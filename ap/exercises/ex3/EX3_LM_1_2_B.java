@@ -20,7 +20,7 @@ public class EX3_LM_1_2_B {
         }
         public static Book[] readBookFromFile(){
         Book[] books = new Book[4];
-        try(BufferedReader reader = new BufferedReader(new FileReader("Books.txt"))){
+        try(BufferedReader reader = new BufferedReader(new FileReader("Books.txt") )){
             String strings;
             int i=0;
             while ((strings=reader.readLine())!=null) {
