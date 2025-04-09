@@ -132,7 +132,7 @@ class PacmanGUI2 extends JFrame implements KeyListener {
     }
 }
 
-    public class EX2_PM_3_1_B {
+    public class Main_EX2_PM_3_1_B {
         public static void main(String[] args) {
             PacmanGUI2 frame = new PacmanGUI2();
             frame.setVisible(true);
