@@ -18,7 +18,7 @@ class Loan{
         System.out.println("Bookname:"+bookname+"    "+"Loan date:"+loanDate+"    "+"Student ID:"+studentNumber);
     }
 }
-public class EX3_LM_2_1 {
+public class Main_EX3_LM_2_1 {
     public static void SaveTOFile(Loan[] loan){
         try(FileWriter fileWriter = new FileWriter("Loan.txt")){
             for(Loan loans:loan)
