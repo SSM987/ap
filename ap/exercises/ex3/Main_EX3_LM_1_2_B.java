@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class EX3_LM_1_2_B {
+public class Main_EX3_LM_1_2_B {
         public static Student[] readStudentsFromFile(){
         Student[] students = new Student[3];
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("Students.txt"))){
