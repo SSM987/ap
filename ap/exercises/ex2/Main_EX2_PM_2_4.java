@@ -138,7 +138,7 @@ String fileName;
      }
  }
 
-    public class EX2_PM_2_4 {
+    public class Main_EX2_PM_2_4 {
         public static char[][]arr;
 
             public static void main(String[] args) {
