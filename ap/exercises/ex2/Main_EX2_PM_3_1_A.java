@@ -126,7 +126,7 @@ import java.util.Random;
         }
     }
 
-        public class EX2_PM_3_1_A {
+        public class Main_EX2_PM_3_1_A {
             public static void main(String[] args) {
                 PacmanGUI frame = new PacmanGUI();
                 frame.setVisible(true);
