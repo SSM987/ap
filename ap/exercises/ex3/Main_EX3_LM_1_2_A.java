@@ -3,7 +3,7 @@ package ap.exercises.ex3;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class EX3_LM_1_2_A {
+public class Main_EX3_LM_1_2_A {
     public static void SaveBooksToFile(Book[]books){
         try(FileWriter fileWriter=new FileWriter("Books.txt")) {
             for (Book book : books)
