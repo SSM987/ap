@@ -2,7 +2,7 @@ package ap.exercises.ex2;
 import java.util.Random;
 import java.util.Scanner;
 
-public class EX2_PM_1_3 {
+public class Main_EX2_PM_1_3 {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         Random random = new Random();
