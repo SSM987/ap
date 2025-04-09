@@ -2,7 +2,7 @@ package ap.exercises.ex3;
 
 import java.util.Scanner;
 
-public class EX3_LM_1_3 {
+public class Main_EX3_LM_1_3 {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         Student[] students = {
