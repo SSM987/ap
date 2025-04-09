@@ -1,6 +1,6 @@
 package ap.exercises.ex3;
 
-public class EX3_LM_1_2_C {
+public class Main_EX3_LM_1_2_C {
     public static void main(String[] args) {
         Student[] students = new Student[3];
         students[0] = new Student("Sepehr", "Afshar", 21552568, "computer engineering");
@@ -11,10 +11,10 @@ public class EX3_LM_1_2_C {
         books[1] = new Book("The big project", "Steven Havking", 358, 2010);
         books[2] = new Book("Effective Java", "Joshua Bloch", 416, 2018);
         books[3] = new Book("Clean code", "Robert C.Martin", 464, 2008);
-        EX3_LM_1_2_A.SaveStudentsToFile(students);
-        EX3_LM_1_2_A.SaveBooksToFile(books);
-        Student[] showStudent = EX3_LM_1_2_B.readStudentsFromFile();
-        Book[] showBooks = EX3_LM_1_2_B.readBookFromFile();
+        Main_EX3_LM_1_2_A.SaveStudentsToFile(students);
+        Main_EX3_LM_1_2_A.SaveBooksToFile(books);
+        Student[] showStudent = Main_EX3_LM_1_2_B.readStudentsFromFile();
+        Book[] showBooks = Main_EX3_LM_1_2_B.readBookFromFile();
         for (Student student:showStudent)
             student.DisplayStudentInfo();
         for (Book book:showBooks)
