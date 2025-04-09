@@ -169,7 +169,7 @@ private void GameOverMessage(Graphics g){
     }
 }
 
-public class EX2_PM_3_1_D {
+public class Main_EX2_PM_3_1_D {
     public static void main(String[] args) {
         PacmanGUI4 frame = new PacmanGUI4();
         frame.setVisible(true);
