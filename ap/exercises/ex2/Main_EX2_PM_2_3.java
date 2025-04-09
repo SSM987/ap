@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
-public class EX2_PM_2_3 {
+public class Main_EX2_PM_2_3 {
      public static int e = 0;
      public static String fileName = "pack_man_save.txt";
      public static int k;
