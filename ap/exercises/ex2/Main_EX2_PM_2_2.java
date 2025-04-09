@@ -3,7 +3,7 @@ package ap.exercises.ex2;
 import java.util.Random;
 import java.util.Scanner;
 
-public class EX2_PM_2_2 {
+public class Main_EX2_PM_2_2 {
      public static int e=0;
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
