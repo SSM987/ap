@@ -44,7 +44,7 @@ class Student{
         this.studentNumber=studentNumber;
     }
 }
-public class EX3_LM_1_1 {
+public class Main_EX3_LM_1_1 {
     public static void main(String[] args) {
         Book book1= new Book("The selfish GENE","Richard dockins",253,1967);
         Book book2 = new Book("The big project","Steven Havking", 358,2010);
