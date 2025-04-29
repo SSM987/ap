@@ -17,7 +17,7 @@ public int getSwitchState(int switchNum) {
         return secondSwitch ? 1 : 0;
 }
 public int getLampState(){
-    return lamp?1:0;
+    return lamp? 1:0;
 }
 public void toggleSwitch(int switchNum){
     if(switchNum==1)
