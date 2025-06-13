@@ -1,4 +1,4 @@
-package ex7;
+package ap.exercises.ex7;
 import java.io.*;
 import java.nio.file.*;
 import java.sql.*;

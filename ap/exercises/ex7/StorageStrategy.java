@@ -1,4 +1,4 @@
-package ex7;
+package ap.exercises.ex7;
 import java.util.List;
 
 interface StorageStrategy<T> {
