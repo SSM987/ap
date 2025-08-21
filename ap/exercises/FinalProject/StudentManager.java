@@ -25,11 +25,13 @@ public class StudentManager {
     }
 
     public Student authenticateStudent(String username, String password) {
+        loadStudents();
         return students.stream()
                 .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
                 .findFirst()
                 .orElse(null);
     }
+
 
     public void displayStudents() {
         System.out.println("\n--- List of Registered Students ---");
