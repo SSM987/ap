@@ -2,10 +2,12 @@ package ap.exercises.FinalProject;
 
 public class LibrarySystem {
     private StudentManager studentManager;
+    private BookManager bookManager;
     private MenuHandler menuHandler;
 
     public LibrarySystem() {
         this.studentManager = new StudentManager();
+        this.bookManager = new BookManager();
         this.menuHandler = new MenuHandler(this);
     }
 
@@ -19,6 +21,10 @@ public class LibrarySystem {
 
     public Student authenticateStudent(String username, String password) {
         return studentManager.authenticateStudent(username, password);
+    }
+    
+    public void searchBookCombined(String title, String author, Integer year) {
+        bookManager.searchBooks(title, author, year);
     }
 
     public void editStudentInformation(Student student) {
@@ -46,3 +52,4 @@ public class LibrarySystem {
         system.start();
     }
 }
+

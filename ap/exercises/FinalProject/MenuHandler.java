@@ -92,13 +92,14 @@ public class MenuHandler {
             System.out.println("\n=== Student Dashboard ===");
             System.out.println("1. View My Information");
             System.out.println("2. Edit My Information");
-            System.out.println("3. Borrow a Book");
-            System.out.println("4. Return a Book");
-            System.out.println("5. View Available Books");
-            System.out.println("6. Logout");
+            System.out.println("3. Search Book");
+            System.out.println("4. Borrow a Book");
+            System.out.println("5. Return a Book");
+            System.out.println("6. View Available Books");
+            System.out.println("7. Logout");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 6);
+            int choice = getIntInput(1, 7);
 
             switch (choice) {
                 case 1:
@@ -109,15 +110,18 @@ public class MenuHandler {
                     librarySystem.editStudentInformation(currentUser);
                     break;
                 case 3:
-                    librarySystem.borrowBook(currentUser);
+                    BookSearch();
                     break;
                 case 4:
-                    librarySystem.returnBook(currentUser);
+                    librarySystem.borrowBook(currentUser);
                     break;
                 case 5:
-                    librarySystem.displayAvailableBooks();
+                    librarySystem.returnBook(currentUser);
                     break;
                 case 6:
+                    librarySystem.displayAvailableBooks();
+                    break;
+                case 7:
                     currentUser = null;
                     System.out.println("Logged out successfully.");
                     return;
@@ -140,4 +144,26 @@ public class MenuHandler {
             }
         }
     }
+    private void BookSearch() {
+        System.out.println("\n--- Book Search ---");
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine();
+
+        System.out.print("Enter author name: ");
+        String author = scanner.nextLine();
+
+        System.out.print("Enter year of publication: ");
+        String yearStr = scanner.nextLine();
+        Integer year = null;
+        if (!yearStr.isEmpty()) {
+            try {
+                year = Integer.parseInt(yearStr);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid year input. Ignored.");
+            }
+        }
+
+        librarySystem.searchBookCombined(title, author, year);
+    }
+
 }
