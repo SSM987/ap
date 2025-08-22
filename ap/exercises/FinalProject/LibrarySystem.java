@@ -25,6 +25,9 @@ public class LibrarySystem {
     public void registerStudent(String name, String studentId, String username, String password) {
         studentManager.registerStudent(name, studentId, username, password);
     }
+    public Employee authenticateEmployee(String username, String password) {
+        return employeeManager.authenticateEmployee(username, password);
+    }
 
     public Student authenticateStudent(String username, String password) {
         return studentManager.authenticateStudent(username, password);

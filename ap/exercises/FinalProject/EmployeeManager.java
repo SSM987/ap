@@ -36,6 +36,14 @@ public class EmployeeManager {
     private boolean isUsernameTaken(String username) {
         return employees.stream().anyMatch(e -> e.getUsername().equals(username));
     }
+    public Employee authenticateEmployee(String username, String password) {
+        loadEmployees();
+        return employees.stream()
+                .filter(e -> e.getUsername().equals(username) && e.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
+    }
+
 
     private void saveEmployees() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(employeeFile))) {

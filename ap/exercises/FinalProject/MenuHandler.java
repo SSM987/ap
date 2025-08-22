@@ -21,11 +21,12 @@ public class MenuHandler {
             System.out.println("2. Student Login");
             System.out.println("3. Guest login");
             System.out.println("4. Manager Login");
-            System.out.println("5. View Registered Student Count");
-            System.out.println("6. Exit");
+            System.out.println("5. Employee Login");
+            System.out.println("6. View Registered Student Count");
+            System.out.println("7. Exit");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 6);
+            int choice = getIntInput(1, 7);
 
             switch (choice) {
                 case 1:
@@ -41,9 +42,12 @@ public class MenuHandler {
                     handleManagerLogin();
                     break;
                 case 5:
+                    handleEmployeeLogin();
+                     break;
+                case 6:
                     displayStudentCount();
                     break;
-                case 6:
+                case 7:
                     System.out.println("Exiting system. Goodbye!");
                     return;
                 default:
@@ -70,6 +74,43 @@ public class MenuHandler {
             System.out.println("Invalid admin credentials.");
         }
     }
+    private void handleEmployeeLogin() {
+        System.out.println("\n--- Employee Login ---");
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        Employee emp = librarySystem.authenticateEmployee(username, password);
+
+        if (emp != null) {
+            System.out.println("Login successful! Welcome, " + emp.getName());
+            displayEmployeeMenu(emp);
+        } else {
+            System.out.println("Invalid information. try again.");
+        }
+    }
+    private void displayEmployeeMenu(Employee emp) {
+        while (true) {
+            System.out.println("\n=== Employee Dashboard ===");
+            System.out.println("1. View My Information");
+            System.out.println("2. Logout");
+            System.out.print("Enter your choice: ");
+
+            int choice = getIntInput(1, 2);
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\n--- My Information ---");
+                    System.out.println(emp);
+                    break;
+                case 2:
+                    System.out.println("Logged out successfully.");
+                    return;
+            }
+        }
+    }
+
 
     private void handleStudentRegistration() {
         System.out.println("\n--- New Student Registration ---");
