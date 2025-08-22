@@ -101,10 +101,11 @@ public class MenuHandler {
             System.out.println("4. Search and Edit Book");
             System.out.println("5. Approve Pending Borrows");
             System.out.println("6. View Student Borrow Report");
-            System.out.println("7. Logout");
+            System.out.println("7. Change Student Status");
+            System.out.println("8. Logout");
             System.out.print("Enter your choice: ");
 
-            int choice = getIntInput(1, 7);
+            int choice = getIntInput(1, 8);
 
             switch (choice) {
                 case 1:
@@ -127,9 +128,50 @@ public class MenuHandler {
                     viewStudentBorrowReport();
                     break;
                 case 7:
+                    manageStudentStatus();
+                    break;
+                case 8:
                     System.out.println("Logged out successfully.");
                     return;
             }
+        }
+    }
+    private void manageStudentStatus() {
+        System.out.println("\n--- Change Student Status ---");
+
+        librarySystem.displayAllStudentsWithStatus();
+
+        System.out.print("\nEnter Student ID to manage (or Enter 'cancel' to go back): ");
+        String studentId = scanner.nextLine();
+
+        if (studentId.equalsIgnoreCase("cancel")) {
+            return;
+        }
+
+        Student student = librarySystem.getStudentById(studentId);
+        if (student == null) {
+            System.out.println("Student not found.");
+            return;
+        }
+
+        System.out.println("Current status: " + (student.isActive() ? "Active" : "Inactive"));
+        System.out.println("1. Activate Student");
+        System.out.println("2. Deactivate Student");
+        System.out.println("3. Cancel");
+        System.out.print("Enter your choice: ");
+
+        int choice = getIntInput(1, 3);
+
+        switch (choice) {
+            case 1:
+                librarySystem.setStudentActiveStatus(studentId, true);
+                break;
+            case 2:
+                librarySystem.setStudentActiveStatus(studentId, false);
+                break;
+            case 3:
+                System.out.println("Operation cancelled.");
+                break;
         }
     }
     private void changeEmployeePassword(Employee emp) {

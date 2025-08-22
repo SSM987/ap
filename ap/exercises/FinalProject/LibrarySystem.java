@@ -61,9 +61,15 @@ public class LibrarySystem {
     }
 
     public void borrowBook(Student student, String title, String start, String end) {
-        borrowManager.addBorrow(new Borrow(student.getStudentId(), title, start, end));
-        bookManager.markAsBorrowed(title);
-    }
+
+        Student currentStudent = studentManager.getStudentById(student.getStudentId());
+        if (currentStudent != null && !currentStudent.isActive()) {
+            System.out.println("Cannot borrow book. Student is inactive.");
+            return;
+        }
+            borrowManager.addBorrow(new Borrow(student.getStudentId(), title, start, end));
+            bookManager.markAsBorrowed(title);
+        }
 
     public void returnBook(Student student, String title) {
         borrowManager.returnBook(student.getStudentId(), title);
@@ -76,6 +82,18 @@ public class LibrarySystem {
     public Map<String, Integer> getStudentBorrowStatistics(String studentId) {
         return borrowManager.getStudentBorrowStatistics(studentId);
     }
+    public void setStudentActiveStatus(String studentId, boolean active) {
+        studentManager.setStudentActiveStatus(studentId, active);
+    }
+
+    public void displayAllStudentsWithStatus() {
+        studentManager.displayAllStudentsWithStatus();
+    }
+
+    public Student getStudentById(String studentId) {
+        return studentManager.getStudentById(studentId);
+    }
+
 
     public void displayAvailableBooks() {
         bookManager.displayAvailableBooks();
