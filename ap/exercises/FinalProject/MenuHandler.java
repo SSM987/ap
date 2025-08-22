@@ -1,6 +1,8 @@
 package ap.exercises.FinalProject;
 
 
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MenuHandler {
@@ -98,10 +100,11 @@ public class MenuHandler {
             System.out.println("3. Add Book");
             System.out.println("4. Search and Edit Book");
             System.out.println("5. Approve Pending Borrows");
-            System.out.println("6. Logout");
+            System.out.println("6. View Student Borrow Report");
+            System.out.println("7. Logout");
             System.out.print("Enter your choice: ");
 
-            int choice = getIntInput(1, 6);
+            int choice = getIntInput(1, 7);
 
             switch (choice) {
                 case 1:
@@ -121,6 +124,9 @@ public class MenuHandler {
                     handlePendingBorrowRequests();
                     break;
                 case 6:
+                    viewStudentBorrowReport();
+                    break;
+                case 7:
                     System.out.println("Logged out successfully.");
                     return;
             }
@@ -325,6 +331,35 @@ public class MenuHandler {
         }
 
         librarySystem.editBook(oldTitle, newTitle, newAuthor, newYear);
+    }
+    private void viewStudentBorrowReport() {
+        System.out.println("\n--- Student Borrow Report ---");
+        System.out.print("Enter Student ID: ");
+        String studentId = scanner.nextLine();
+
+        List<Borrow> borrowHistory = librarySystem.getStudentBorrowHistory(studentId);
+
+        if (borrowHistory.isEmpty()) {
+            System.out.println("No borrow history found for student ID: " + studentId);
+            return;
+        }
+
+        System.out.println("\n--- Borrow History for Student ID: " + studentId + " ---");
+        for (Borrow borrow : borrowHistory) {
+            System.out.println(borrow);
+        }
+
+        Map<String, Integer> stats = librarySystem.getStudentBorrowStatistics(studentId);
+
+        System.out.println("\n--- Borrow Statistics ---");
+        System.out.println("Total Borrows: " + stats.get("totalBorrows"));
+        System.out.println("Not Returned Yet: " + stats.get("notReturned"));
+        System.out.println("Delayed Returns: " + stats.get("delayedReturns"));
+
+        if (stats.get("totalBorrows") > 0) {
+            double delayedPercentage = (double) stats.get("delayedReturns") / stats.get("totalBorrows") * 100;
+            System.out.printf("Delayed Return Percentage: %.2f%%\n", delayedPercentage);
+        }
     }
 
     private int getIntInput(int min, int max) {

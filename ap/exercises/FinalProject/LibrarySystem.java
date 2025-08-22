@@ -1,5 +1,9 @@
 package ap.exercises.FinalProject;
 
+import java.awt.*;
+import java.util.List;
+import java.util.Map;
+
 public class LibrarySystem {
     private StudentManager studentManager;
     private BookManager bookManager;
@@ -11,7 +15,7 @@ public class LibrarySystem {
         this.studentManager = new StudentManager();
         this.bookManager = new BookManager();
         this.menuHandler = new MenuHandler(this);
-        this.borrowManager = new BorrowManager();
+        this.borrowManager = new BorrowManager(bookManager);
         this.employeeManager = new EmployeeManager();
     }
 
@@ -64,6 +68,13 @@ public class LibrarySystem {
     public void returnBook(Student student, String title) {
         borrowManager.returnBook(student.getStudentId(), title);
         bookManager.markAsReturned(title);
+    }
+    public List<Borrow> getStudentBorrowHistory(String studentId) {
+        return borrowManager.getBorrowHistoryByStudent(studentId);
+    }
+
+    public Map<String, Integer> getStudentBorrowStatistics(String studentId) {
+        return borrowManager.getStudentBorrowStatistics(studentId);
     }
 
     public void displayAvailableBooks() {

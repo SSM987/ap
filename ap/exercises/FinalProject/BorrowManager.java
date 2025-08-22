@@ -10,8 +10,10 @@ public class BorrowManager {
     private List<Borrow> pendingBorrows;
     private final String borrowFile = "borrows.txt";
     private final String pendingBorrowFile = "pending_borrows.txt";
+    private BookManager bookManager;
 
-    public BorrowManager() {
+    public BorrowManager(BookManager bookManager) {
+        this.bookManager = bookManager;
         borrows = new ArrayList<>();
         pendingBorrows = new ArrayList<>();
         loadBorrows();
@@ -83,6 +85,55 @@ public class BorrowManager {
             System.out.println(b);
         }
     }
+    public List<Borrow> getBorrowHistoryByStudent(String studentId) {
+        List<Borrow> studentBorrows = new ArrayList<>();
+        for (Borrow borrow : borrows) {
+            if (borrow.getStudentId().equals(studentId)) {
+                studentBorrows.add(borrow);
+            }
+        }
+        return studentBorrows;
+    }
+
+    public Map<String, Integer> getStudentBorrowStatistics(String studentId) {
+        Map<String, Integer> stats = new HashMap<>();
+        List<Borrow> studentBorrows = getBorrowHistoryByStudent(studentId);
+
+        int totalBorrows = studentBorrows.size();
+        int notReturnedCount = 0;
+        int delayedReturnCount = 0;
+
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (Borrow borrow : studentBorrows) {
+            LocalDate endDate = LocalDate.parse(borrow.getEndDate(), formatter);
+
+            if (isBookStillBorrowed(borrow.getBookTitle())) {
+                notReturnedCount++;
+            }
+
+            if (endDate.isBefore(today) && !isBookStillBorrowed(borrow.getBookTitle())) {
+                delayedReturnCount++;
+            }
+        }
+
+        stats.put("totalBorrows", totalBorrows);
+        stats.put("notReturned", notReturnedCount);
+        stats.put("delayedReturns", delayedReturnCount);
+
+        return stats;
+    }
+
+    private boolean isBookStillBorrowed(String bookTitle) {
+        for (Book book : bookManager.getBooks()) {
+            if (book.getTitle().equalsIgnoreCase(bookTitle) && book.isBorrowed()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void returnBook(String studentId, String bookTitle) {
         Borrow target = null;
@@ -93,7 +144,7 @@ public class BorrowManager {
             }
         }
         if (target != null) {
-            borrows.remove(target);
+            bookManager.markAsReturned(bookTitle);
             saveBorrows();
             System.out.println("Book returned successfully.");
         } else {
