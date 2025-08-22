@@ -32,7 +32,10 @@ public class LibrarySystem {
     public Student authenticateStudent(String username, String password) {
         return studentManager.authenticateStudent(username, password);
     }
-    
+    public void editBook(String oldTitle, String newTitle, String newAuthor, Integer newYear) {
+        bookManager.editBook(oldTitle, newTitle, newAuthor, newYear);
+    }
+
     public void searchBookCombined(String title, String author, Integer year) {
         bookManager.searchBooks(title, author, year);
     }

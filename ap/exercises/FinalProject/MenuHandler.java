@@ -96,10 +96,11 @@ public class MenuHandler {
             System.out.println("1. View My Information");
             System.out.println("2. Change Password");
             System.out.println("3. Add Book");
-            System.out.println("4. Logout");
+            System.out.println("4. Search and Edit Book");
+            System.out.println("5. Logout");
             System.out.print("Enter your choice: ");
 
-            int choice = getIntInput(1, 4);
+            int choice = getIntInput(1, 5);
 
             switch (choice) {
                 case 1:
@@ -113,6 +114,9 @@ public class MenuHandler {
                     addBook();
                     break;
                 case 4:
+                    searchAndEditBook();
+                    break;
+                case 5:
                     System.out.println("Logged out successfully.");
                     return;
             }
@@ -258,6 +262,45 @@ public class MenuHandler {
                     System.out.println("Invalid option! Please try again.");
             }
         }
+    }
+    private void searchAndEditBook() {
+        System.out.println("\n--- Search Book for Edit ---");
+        System.out.print("Enter book title (or you can leave blank): ");
+        String title = scanner.nextLine();
+        System.out.print("Enter author name (or you can leave blank): ");
+        String author = scanner.nextLine();
+        System.out.print("Enter year (or you can leave blank): ");
+        String yearStr = scanner.nextLine();
+        Integer year = null;
+        if (!yearStr.isEmpty()) {
+            try {
+                year = Integer.parseInt(yearStr);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid year input. Ignored.");
+            }
+        }
+
+        librarySystem.searchBookCombined(title, author, year);
+
+        System.out.print("\nEnter the exact title of the book for edit: ");
+        String oldTitle = scanner.nextLine();
+
+        System.out.print("Enter New title (or you can leave blank): ");
+        String newTitle = scanner.nextLine();
+        System.out.print("Enter New author (or you can leave blank): ");
+        String newAuthor = scanner.nextLine();
+        System.out.print("Enter New year (or you can leave blank): ");
+        String newYearStr = scanner.nextLine();
+        Integer newYear = null;
+        if (!newYearStr.isEmpty()) {
+            try {
+                newYear = Integer.parseInt(newYearStr);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid year input. Ignored.");
+            }
+        }
+
+        librarySystem.editBook(oldTitle, newTitle, newAuthor, newYear);
     }
 
     private int getIntInput(int min, int max) {

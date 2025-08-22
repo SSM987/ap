@@ -45,6 +45,24 @@ public class BookManager {
             System.out.println("No matching books found.");
         }
     }
+    public void editBook(String oldTitle, String newTitle, String newAuthor, Integer newYear) {
+        for (Book b : books) {
+            if (b.getTitle().equalsIgnoreCase(oldTitle)) {
+                if (newTitle != null && !newTitle.isEmpty()) {
+                    b.setTitle(newTitle);
+                }
+                if (newAuthor != null && !newAuthor.isEmpty()) {
+                    b.setAuthor(newAuthor);
+                }
+                if (newYear != null) {
+                    b.setYear(newYear);
+                }
+                saveBooks();
+                System.out.println("Book information changed successfully.");
+                return;
+            }
+        }
+    }
     public void markAsBorrowed(String title) {
         for (Book b : books) {
             if (b.getTitle().equalsIgnoreCase(title) && !b.isBorrowed()) {
