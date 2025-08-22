@@ -49,6 +49,17 @@ public class LibrarySystem {
     public void guestSearchBook(String title) {
         bookManager.searchBooksForGuest(title);
     }
+    public int getBookCount() {
+        return bookManager.getBooks().size();
+    }
+
+    public int getBorrowCount() {
+        return borrowManager.getBorrowCount();
+    }
+
+    public void displayRecentBorrows(int limit) {
+        borrowManager.displayRecentBorrows(limit);
+    }
 
 
     public void start() {

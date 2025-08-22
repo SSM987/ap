@@ -138,11 +138,12 @@ public class MenuHandler {
         while (true) {
             System.out.println("\n=== Guest Dashboard ===");
             System.out.println("1. View Registered Student Count");
-            System.out.println("2. Search Book:");
-            System.out.println("3. Back to Main Menu");
+            System.out.println("2. Search Book");
+            System.out.println("3. View Statistical Information");
+            System.out.println("4. Back to Main Menu");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 3);
+            int choice = getIntInput(1, 4);
 
             switch (choice) {
                 case 1:
@@ -152,6 +153,9 @@ public class MenuHandler {
                     guestBookSearch();
                     break;
                 case 3:
+                    displayGuestStatisticalInformation();
+                    break;
+                case 4:
                     return;
                 default:
                     System.out.println("Invalid option! Please try again.");
@@ -222,5 +226,16 @@ public class MenuHandler {
         currentUser.setUsername(newUser);
         currentUser.setPassword(newPass);
     }
+    private void displayGuestStatisticalInformation() {
+        System.out.println("\n--- Library Statistical Information ---");
+        System.out.println("Total students: " + librarySystem.getStudentCount());
+        System.out.println("Total books: " + librarySystem.getBookCount());
+        System.out.println("Total borrows: " + librarySystem.getBorrowCount());
 
+        if (librarySystem.getBorrowCount() > 0) {
+            System.out.print("How many recent borrows would you like to see? ");
+            int limit = getIntInput(1, librarySystem.getBorrowCount());
+            librarySystem.displayRecentBorrows(limit);
+        }
+    }
 }

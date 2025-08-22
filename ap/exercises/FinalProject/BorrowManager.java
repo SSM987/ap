@@ -48,6 +48,23 @@ public class BorrowManager {
             System.out.println("No matching borrow found.");
         }
     }
+    public int getBorrowCount() {
+        return borrows.size();
+    }
+
+    public void displayRecentBorrows(int limit) {
+        if (borrows.isEmpty()) {
+            System.out.println("No active borrows.");
+            return;
+        }
+        System.out.println("\n--- Recent Borrows ---");
+        int start = Math.max(0, borrows.size() - limit);
+        for (int i = borrows.size() - 1; i >= start; i--) {
+            System.out.println(borrows.get(i));
+        }
+    }
+
+
 
     private void saveBorrows() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(borrowFile))) {
