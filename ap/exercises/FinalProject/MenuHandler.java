@@ -138,16 +138,20 @@ public class MenuHandler {
         while (true) {
             System.out.println("\n=== Guest Dashboard ===");
             System.out.println("1. View Registered Student Count");
-            System.out.println("2. Back to Main Menu");
+            System.out.println("2. Search Book:");
+            System.out.println("3. Back to Main Menu");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 2);
+            int choice = getIntInput(1, 3);
 
             switch (choice) {
                 case 1:
                     displayStudentCount();
                     break;
                 case 2:
+                    guestBookSearch();
+                    break;
+                case 3:
                     return;
                 default:
                     System.out.println("Invalid option! Please try again.");
@@ -167,6 +171,11 @@ public class MenuHandler {
                 System.out.print("Invalid input. Please enter a number: ");
             }
         }
+    }
+    private void guestBookSearch() {
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine();
+        librarySystem.guestSearchBook(title);
     }
     private void BookSearch() {
         System.out.println("\n--- Book Search ---");

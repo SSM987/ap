@@ -46,6 +46,10 @@ public class LibrarySystem {
     public void displayAvailableBooks() {
         bookManager.displayAvailableBooks();
     }
+    public void guestSearchBook(String title) {
+        bookManager.searchBooksForGuest(title);
+    }
+
 
     public void start() {
         menuHandler.displayMainMenu();

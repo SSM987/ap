@@ -77,6 +77,21 @@ public class BookManager {
             System.out.println("Not available book.");
         }
     }
+    public void searchBooksForGuest(String title) {
+        boolean found = false;
+        for (Book b : books) {
+            if (b.getTitle().equalsIgnoreCase(title)) {
+                System.out.println("Title: " + b.getTitle() +
+                        ", Author: " + b.getAuthor() +
+                        ", Year: " + b.getYear());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No matching books found.");
+        }
+    }
+
 
     private void saveBooks() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(bookFile))) {
