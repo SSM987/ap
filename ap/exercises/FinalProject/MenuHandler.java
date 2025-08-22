@@ -95,10 +95,11 @@ public class MenuHandler {
             System.out.println("\n=== Employee Dashboard ===");
             System.out.println("1. View My Information");
             System.out.println("2. Change Password");
-            System.out.println("3. Logout");
+            System.out.println("3. Add Book");
+            System.out.println("4. Logout");
             System.out.print("Enter your choice: ");
 
-            int choice = getIntInput(1, 3);
+            int choice = getIntInput(1, 4);
 
             switch (choice) {
                 case 1:
@@ -109,6 +110,9 @@ public class MenuHandler {
                     changeEmployeePassword(emp);
                     break;
                 case 3:
+                    addBook();
+                    break;
+                case 4:
                     System.out.println("Logged out successfully.");
                     return;
             }
@@ -273,6 +277,20 @@ public class MenuHandler {
         System.out.print("Enter book title: ");
         String title = scanner.nextLine();
         librarySystem.guestSearchBook(title);
+    }
+    private void addBook() {
+        System.out.println("\n--- Add Book ---");
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine();
+
+        System.out.print("Enter author name: ");
+        String author = scanner.nextLine();
+
+        System.out.print("Enter publication year: ");
+        int year = Integer.parseInt(scanner.nextLine());
+
+        librarySystem.addBook(title, author, year);
+        System.out.println("Book added successfully.");
     }
     private void BookSearch() {
         System.out.println("\n--- Book Search ---");
