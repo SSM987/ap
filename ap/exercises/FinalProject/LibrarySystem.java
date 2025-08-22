@@ -59,6 +59,13 @@ public class LibrarySystem {
     public boolean hasPendingBorrowRequests() {
         return borrowManager.hasPendingBorrows();
     }
+    public void markBookAsReceived(String studentId, String bookTitle, String receiveDate) {
+        borrowManager.markBookAsReceived(studentId, bookTitle, receiveDate);
+    }
+
+    public void displayUnreceivedBorrows() {
+        borrowManager.displayUnreceivedBorrows();
+    }
 
     public void borrowBook(Student student, String title, String start, String end) {
 
@@ -71,12 +78,14 @@ public class LibrarySystem {
             bookManager.markAsBorrowed(title);
         }
 
-    public void returnBook(Student student, String title) {
-        borrowManager.returnBook(student.getStudentId(), title);
-        bookManager.markAsReturned(title);
+    public void returnBook(Student student, String title, String returnDate) {
+        borrowManager.returnBook(student.getStudentId(), title, returnDate);
     }
     public List<Borrow> getStudentBorrowHistory(String studentId) {
         return borrowManager.getBorrowHistoryByStudent(studentId);
+    }
+    public boolean hasUnreceivedBorrows() {
+        return borrowManager.hasUnreceivedBorrows();
     }
 
     public Map<String, Integer> getStudentBorrowStatistics(String studentId) {

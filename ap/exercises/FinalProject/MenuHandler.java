@@ -102,10 +102,11 @@ public class MenuHandler {
             System.out.println("5. Approve Pending Borrows");
             System.out.println("6. View Student Borrow Report");
             System.out.println("7. Change Student Status");
-            System.out.println("8. Logout");
+            System.out.println("8. Receive Book");
+            System.out.println("9. Logout");
             System.out.print("Enter your choice: ");
 
-            int choice = getIntInput(1, 8);
+            int choice = getIntInput(1, 9);
 
             switch (choice) {
                 case 1:
@@ -131,6 +132,9 @@ public class MenuHandler {
                     manageStudentStatus();
                     break;
                 case 8:
+                    receiveBorrowedBook();
+                    break;
+                case 9:
                     System.out.println("Logged out successfully.");
                     return;
             }
@@ -335,6 +339,28 @@ public class MenuHandler {
             }
         }
     }
+    private boolean hasUnreceivedBorrows() {
+        return librarySystem.hasUnreceivedBorrows();
+    }
+    private void receiveBorrowedBook() {
+        System.out.println("\n--- Receive Borrowed Book ---");
+        librarySystem.displayUnreceivedBorrows();
+
+        if (!hasUnreceivedBorrows()) {
+            System.out.println("No unreceived borrows to process.");
+            return;
+        }
+        System.out.print("\nEnter Student ID: ");
+        String studentId = scanner.nextLine();
+
+        System.out.print("Enter Book Title: ");
+        String bookTitle = scanner.nextLine();
+
+        System.out.print("Enter Receive Date (YYYY-MM-DD): ");
+        String receiveDate = scanner.nextLine();
+
+        librarySystem.markBookAsReceived(studentId, bookTitle, receiveDate);
+    }
     private void searchAndEditBook() {
         System.out.println("\n--- Search Book for Edit ---");
         System.out.print("Enter book title (or you can leave blank): ");
@@ -395,6 +421,7 @@ public class MenuHandler {
 
         System.out.println("\n--- Borrow Statistics ---");
         System.out.println("Total Borrows: " + stats.get("totalBorrows"));
+        System.out.println("Not Received Yet: " + stats.get("notReceived"));
         System.out.println("Not Returned Yet: " + stats.get("notReturned"));
         System.out.println("Delayed Returns: " + stats.get("delayedReturns"));
 
@@ -470,7 +497,11 @@ public class MenuHandler {
     private void returnBook() {
         System.out.print("Enter book title to return: ");
         String title = scanner.nextLine();
-        librarySystem.returnBook(currentUser, title);
+
+        System.out.print("Enter return date (YYYY-MM-DD): ");
+        String returnDate = scanner.nextLine();
+
+        librarySystem.returnBook(currentUser, title, returnDate);
     }
 
     private void changeInformation() {

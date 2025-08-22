@@ -102,6 +102,7 @@ public class BorrowManager {
         int totalBorrows = studentBorrows.size();
         int notReturnedCount = 0;
         int delayedReturnCount = 0;
+        int notReceivedCount = 0;
 
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -116,13 +117,26 @@ public class BorrowManager {
             if (endDate.isBefore(today) && !isBookStillBorrowed(borrow.getBookTitle())) {
                 delayedReturnCount++;
             }
+
+            if (!borrow.isReceived()) {
+                notReceivedCount++;
+            }
         }
 
         stats.put("totalBorrows", totalBorrows);
         stats.put("notReturned", notReturnedCount);
         stats.put("delayedReturns", delayedReturnCount);
+        stats.put("notReceived", notReceivedCount);
 
         return stats;
+    }
+    public boolean hasUnreceivedBorrows() {
+        for (Borrow borrow : borrows) {
+            if (!borrow.isReceived()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isBookStillBorrowed(String bookTitle) {
@@ -135,7 +149,7 @@ public class BorrowManager {
     }
 
 
-    public void returnBook(String studentId, String bookTitle) {
+    public void returnBook(String studentId, String bookTitle, String returnDate) {
         Borrow target = null;
         for (Borrow b : borrows) {
             if (b.getStudentId().equals(studentId) && b.getBookTitle().equalsIgnoreCase(bookTitle)) {
@@ -144,11 +158,39 @@ public class BorrowManager {
             }
         }
         if (target != null) {
+            target.setReturnDate(returnDate);
             bookManager.markAsReturned(bookTitle);
             saveBorrows();
-            System.out.println("Book returned successfully.");
+            System.out.println("Book returned successfully on " + returnDate);
         } else {
             System.out.println("No matching borrow found.");
+        }
+    }
+    public void markBookAsReceived(String studentId, String bookTitle, String receiveDate) {
+        for (Borrow borrow : borrows) {
+            if (borrow.getStudentId().equals(studentId) &&
+                    borrow.getBookTitle().equalsIgnoreCase(bookTitle) &&
+                    !borrow.isReceived()) {
+
+                borrow.setReceiveDate(receiveDate);
+                saveBorrows();
+                System.out.println("Book received successfully on " + receiveDate);
+                return;
+            }
+        }
+        System.out.println("No matching borrow request found or book already received.");
+    }
+    public void displayUnreceivedBorrows() {
+        boolean found = false;
+        System.out.println("\n--- Unreceived Borrows ---");
+        for (Borrow borrow : borrows) {
+            if (!borrow.isReceived()) {
+                System.out.println(borrow);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No unreceived borrows.");
         }
     }
 
