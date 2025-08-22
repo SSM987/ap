@@ -54,6 +54,19 @@ public class StudentManager {
         return students.size();
     }
 
+    public void updateStudentInformation(Student student, String newUsername, String newPassword) {
+        for (Student s : students) {
+            if (s.getStudentId().equals(student.getStudentId())) {
+                s.setUsername(newUsername);
+                s.setPassword(newPassword);
+                break;
+            }
+        }
+        saveStudents();
+        System.out.println("Credentials updated successfully.");
+    }
+
+
     private void saveStudents() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(studentFile))) {
             for (Student s : students) {

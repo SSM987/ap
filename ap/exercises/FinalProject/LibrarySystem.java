@@ -4,11 +4,13 @@ public class LibrarySystem {
     private StudentManager studentManager;
     private BookManager bookManager;
     private MenuHandler menuHandler;
+    private BorrowManager borrowManager;
 
     public LibrarySystem() {
         this.studentManager = new StudentManager();
         this.bookManager = new BookManager();
         this.menuHandler = new MenuHandler(this);
+        this.borrowManager = new BorrowManager();
     }
 
     public int getStudentCount() {
@@ -27,20 +29,22 @@ public class LibrarySystem {
         bookManager.searchBooks(title, author, year);
     }
 
-    public void editStudentInformation(Student student) {
-        System.out.println("Not implemented.");
+    public void editStudentInformation(Student student, String newUsername, String newPassword) {
+        studentManager.updateStudentInformation(student, newUsername, newPassword);
     }
 
-    public void borrowBook(Student student) {
-        System.out.println("Not implemented.");
+    public void borrowBook(Student student, String title, String start, String end) {
+        borrowManager.addBorrow(new Borrow(student.getStudentId(), title, start, end));
+        bookManager.markAsBorrowed(title);
     }
 
-    public void returnBook(Student student) {
-        System.out.println("Not implemented.");
+    public void returnBook(Student student, String title) {
+        borrowManager.returnBook(student.getStudentId(), title);
+        bookManager.markAsReturned(title);
     }
 
     public void displayAvailableBooks() {
-        System.out.println("Not implemented.");
+        bookManager.displayAvailableBooks();
     }
 
     public void start() {

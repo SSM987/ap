@@ -45,7 +45,38 @@ public class BookManager {
             System.out.println("No matching books found.");
         }
     }
+    public void markAsBorrowed(String title) {
+        for (Book b : books) {
+            if (b.getTitle().equalsIgnoreCase(title) && !b.isBorrowed()) {
+                b.setBorrowed(true);
+                saveBooks();
+                return;
+            }
+        }
+    }
 
+    public void markAsReturned(String title) {
+        for (Book b : books) {
+            if (b.getTitle().equalsIgnoreCase(title) && b.isBorrowed()) {
+                b.setBorrowed(false);
+                saveBooks();
+                return;
+            }
+        }
+    }
+
+    public void displayAvailableBooks() {
+        boolean found = false;
+        for (Book b : books) {
+            if (!b.isBorrowed()) {
+                System.out.println(b);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Not available book.");
+        }
+    }
 
     private void saveBooks() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(bookFile))) {

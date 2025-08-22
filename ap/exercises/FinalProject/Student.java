@@ -22,6 +22,15 @@ public class Student {
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
     @Override
     public String toString() {
         return "Name: " + name +

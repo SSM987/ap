@@ -107,16 +107,16 @@ public class MenuHandler {
                     System.out.println(currentUser);
                     break;
                 case 2:
-                    librarySystem.editStudentInformation(currentUser);
+                    changeInformation();
                     break;
                 case 3:
                     BookSearch();
                     break;
                 case 4:
-                    librarySystem.borrowBook(currentUser);
+                    borrowBook();
                     break;
                 case 5:
-                    librarySystem.returnBook(currentUser);
+                    returnBook();
                     break;
                 case 6:
                     librarySystem.displayAvailableBooks();
@@ -164,6 +164,30 @@ public class MenuHandler {
         }
 
         librarySystem.searchBookCombined(title, author, year);
+    }
+    private void borrowBook() {
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter start date (YYYY-MM-DD): ");
+        String start = scanner.nextLine();
+        System.out.print("Enter end date (YYYY-MM-DD): ");
+        String end = scanner.nextLine();
+        librarySystem.borrowBook(currentUser, title, start, end);
+    }
+    private void returnBook() {
+        System.out.print("Enter book title to return: ");
+        String title = scanner.nextLine();
+        librarySystem.returnBook(currentUser, title);
+    }
+
+    private void changeInformation() {
+        System.out.print("Enter new username: ");
+        String newUser = scanner.nextLine();
+        System.out.print("Enter new password: ");
+        String newPass = scanner.nextLine();
+        librarySystem.editStudentInformation(currentUser, newUser, newPass);
+        currentUser.setUsername(newUser);
+        currentUser.setPassword(newPass);
     }
 
 }
