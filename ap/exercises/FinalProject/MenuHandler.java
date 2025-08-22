@@ -20,8 +20,9 @@ public class MenuHandler {
             System.out.println("1. Student Registration");
             System.out.println("2. Student Login");
             System.out.println("3. Guest login");
-            System.out.println("4. View Registered Student Count");
-            System.out.println("5. Exit");
+            System.out.println("4. Manager Login");
+            System.out.println("5. View Registered Student Count");
+            System.out.println("6. Exit");
             System.out.print("Please enter your choice: ");
 
             int choice = getIntInput(1, 6);
@@ -37,9 +38,12 @@ public class MenuHandler {
                     displayGuestMenu();
                     break;
                 case 4:
-                    displayStudentCount();
+                    handleManagerLogin();
                     break;
                 case 5:
+                    displayStudentCount();
+                    break;
+                case 6:
                     System.out.println("Exiting system. Goodbye!");
                     return;
                 default:
@@ -52,6 +56,19 @@ public class MenuHandler {
     private void displayStudentCount() {
         int studentCount = librarySystem.getStudentCount();
         System.out.println("\nTotal registered students: " + studentCount);
+    }
+    private void handleManagerLogin() {
+        System.out.println("\n--- Manager Login ---");
+        System.out.print("Enter admin username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter admin password: ");
+        String password = scanner.nextLine();
+
+        if (username.equals("Sepehr") && password.equals("Mousavi")) {
+            displayManagerMenu();
+        } else {
+            System.out.println("Invalid admin credentials.");
+        }
     }
 
     private void handleStudentRegistration() {
@@ -72,6 +89,31 @@ public class MenuHandler {
         librarySystem.registerStudent(name, studentId, username, password);
     }
 
+    private void displayManagerMenu() {
+        while (true) {
+            System.out.println("\n=== Manager Dashboard ===");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            int choice = getIntInput(1, 3);
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Employee Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Employee ID: ");
+                    String empId = scanner.nextLine();
+                    System.out.print("Username: ");
+                    String uname = scanner.nextLine();
+                    System.out.print("Password: ");
+                    String pass = scanner.nextLine();
+                    librarySystem.getEmployeeManager().addEmployee(name, empId, uname, pass);
+                    break;
+                case 2:
+                    return;
+            }
+        }
+    }
     private void handleStudentLogin() {
         System.out.println("\n--- Student Login ---");
 

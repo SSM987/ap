@@ -5,16 +5,21 @@ public class LibrarySystem {
     private BookManager bookManager;
     private MenuHandler menuHandler;
     private BorrowManager borrowManager;
+    private EmployeeManager employeeManager;
 
     public LibrarySystem() {
         this.studentManager = new StudentManager();
         this.bookManager = new BookManager();
         this.menuHandler = new MenuHandler(this);
         this.borrowManager = new BorrowManager();
+        this.employeeManager = new EmployeeManager();
     }
 
     public int getStudentCount() {
         return this.studentManager.getStudentCount();
+    }
+    public EmployeeManager getEmployeeManager() {
+        return employeeManager;
     }
 
     public void registerStudent(String name, String studentId, String username, String password) {
