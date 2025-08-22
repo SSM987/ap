@@ -22,6 +22,16 @@ public class EmployeeManager {
         saveEmployees();
         System.out.println("Employee registered successfully.");
     }
+    public void changeEmployeePassword(Employee emp, String newPassword) {
+        for (Employee e : employees) {
+            if (e.getEmployeeId().equals(emp.getEmployeeId())) {
+                e.setPassword(newPassword);
+                break;
+            }
+        }
+        saveEmployees();
+        System.out.println("Password changed successfully.");
+    }
 
     public void displayEmployees() {
         if (employees.isEmpty()) {

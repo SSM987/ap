@@ -94,10 +94,11 @@ public class MenuHandler {
         while (true) {
             System.out.println("\n=== Employee Dashboard ===");
             System.out.println("1. View My Information");
-            System.out.println("2. Logout");
+            System.out.println("2. Change Password");
+            System.out.println("3. Logout");
             System.out.print("Enter your choice: ");
 
-            int choice = getIntInput(1, 2);
+            int choice = getIntInput(1, 3);
 
             switch (choice) {
                 case 1:
@@ -105,14 +106,23 @@ public class MenuHandler {
                     System.out.println(emp);
                     break;
                 case 2:
+                    changeEmployeePassword(emp);
+                    break;
+                case 3:
                     System.out.println("Logged out successfully.");
                     return;
             }
         }
     }
+    private void changeEmployeePassword(Employee emp) {
+        System.out.print("Enter new password: ");
+        String newPass = scanner.nextLine();
+        librarySystem.getEmployeeManager().changeEmployeePassword(emp, newPass);
+        emp.setPassword(newPass);
+    }
 
 
-    private void handleStudentRegistration() {
+        private void handleStudentRegistration() {
         System.out.println("\n--- New Student Registration ---");
 
         System.out.print("Student name: ");
