@@ -19,11 +19,12 @@ public class MenuHandler {
             System.out.println("\n=== University Library Management System ===");
             System.out.println("1. Student Registration");
             System.out.println("2. Student Login");
-            System.out.println("3. View Registered Student Count");
-            System.out.println("4. Exit");
+            System.out.println("3. Guest login");
+            System.out.println("4. View Registered Student Count");
+            System.out.println("5. Exit");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 5);
+            int choice = getIntInput(1, 6);
 
             switch (choice) {
                 case 1:
@@ -33,9 +34,12 @@ public class MenuHandler {
                     handleStudentLogin();
                     break;
                 case 3:
-                    displayStudentCount();
+                    displayGuestMenu();
                     break;
                 case 4:
+                    displayStudentCount();
+                    break;
+                case 5:
                     System.out.println("Exiting system. Goodbye!");
                     return;
                 default:
@@ -124,6 +128,26 @@ public class MenuHandler {
                 case 7:
                     currentUser = null;
                     System.out.println("Logged out successfully.");
+                    return;
+                default:
+                    System.out.println("Invalid option! Please try again.");
+            }
+        }
+    }
+    private void displayGuestMenu() {
+        while (true) {
+            System.out.println("\n=== Guest Dashboard ===");
+            System.out.println("1. View Registered Student Count");
+            System.out.println("2. Back to Main Menu");
+            System.out.print("Please enter your choice: ");
+
+            int choice = getIntInput(1, 2);
+
+            switch (choice) {
+                case 1:
+                    displayStudentCount();
+                    break;
+                case 2:
                     return;
                 default:
                     System.out.println("Invalid option! Please try again.");
