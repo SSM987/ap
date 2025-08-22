@@ -97,10 +97,11 @@ public class MenuHandler {
             System.out.println("2. Change Password");
             System.out.println("3. Add Book");
             System.out.println("4. Search and Edit Book");
-            System.out.println("5. Logout");
+            System.out.println("5. Approve Pending Borrows");
+            System.out.println("6. Logout");
             System.out.print("Enter your choice: ");
 
-            int choice = getIntInput(1, 5);
+            int choice = getIntInput(1, 6);
 
             switch (choice) {
                 case 1:
@@ -117,6 +118,9 @@ public class MenuHandler {
                     searchAndEditBook();
                     break;
                 case 5:
+                    handlePendingBorrowRequests();
+                    break;
+                case 6:
                     System.out.println("Logged out successfully.");
                     return;
             }
@@ -189,6 +193,26 @@ public class MenuHandler {
             displayLoggedInStudentMenu();
         } else {
             System.out.println("Invalid username or password. Please try again.");
+        }
+    }
+    private void handlePendingBorrowRequests() {
+        System.out.println("\n--- Pending Borrow Requests Management ---");
+        librarySystem.displayPendingBorrows();
+        if (librarySystem.hasPendingBorrowRequests()) {
+        System.out.print("\nDo you want to approve a borrow request? (y/n): ");
+        String response = scanner.nextLine();
+
+        if (response.equalsIgnoreCase("y")) {
+            System.out.print("Enter student ID: ");
+            String studentId = scanner.nextLine();
+
+            System.out.print("Enter book title: ");
+            String bookTitle = scanner.nextLine();
+
+            librarySystem.approveBorrowRequest(studentId, bookTitle);
+        } else {
+            System.out.println("No pending borrow requests to approve.");
+        }
         }
     }
 
@@ -363,6 +387,7 @@ public class MenuHandler {
         String start = scanner.nextLine();
         System.out.print("Enter end date (YYYY-MM-DD): ");
         String end = scanner.nextLine();
+
         librarySystem.borrowBook(currentUser, title, start, end);
     }
     private void returnBook() {

@@ -46,7 +46,15 @@ public class LibrarySystem {
     public void addBook(String title, String author, int year) {
         bookManager.addBook(new Book(title, author, year));
     }
-
+    public void approveBorrowRequest(String studentId, String bookTitle) {
+        borrowManager.approveBorrowRequest(studentId, bookTitle);
+    }
+    public void displayPendingBorrows() {
+        borrowManager.displayPendingBorrows();
+    }
+    public boolean hasPendingBorrowRequests() {
+        return borrowManager.hasPendingBorrows();
+    }
 
     public void borrowBook(Student student, String title, String start, String end) {
         borrowManager.addBorrow(new Borrow(student.getStudentId(), title, start, end));

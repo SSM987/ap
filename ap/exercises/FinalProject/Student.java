@@ -36,6 +36,7 @@ public class Student {
         return "Name: " + name +
                 " | Student ID: " + studentId +
                 " | Username: " + username +
+                " | Password: " + password +
                 " | Active: " + active;
     }
 
