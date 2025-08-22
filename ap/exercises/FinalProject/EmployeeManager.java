@@ -32,6 +32,50 @@ public class EmployeeManager {
         saveEmployees();
         System.out.println("Password changed successfully.");
     }
+    public void increaseEmployeeBooksAdded(String employeeId) {
+        for (Employee e : employees) {
+            if (e.getEmployeeId().equals(employeeId)) {
+                e.incrementBooksAdded();
+                saveEmployees();
+                return;
+            }
+        }
+    }
+
+    public void increaseEmployeeBooksBorrowed(String employeeId) {
+        for (Employee e : employees) {
+            if (e.getEmployeeId().equals(employeeId)) {
+                e.incrementBooksBorrowed();
+                saveEmployees();
+                return;
+            }
+        }
+    }
+    public void increaseEmployeeBooksReceived(String employeeId) {
+        for (Employee e : employees) {
+            if (e.getEmployeeId().equals(employeeId)) {
+                e.incrementBooksReceived();
+                saveEmployees();
+                return;
+            }
+        }
+    }
+    public void displayEmployeePerformance() {
+        if (employees.isEmpty()) {
+            System.out.println("No employees registered yet.");
+            return;
+        }
+
+        System.out.println("\n=== Employee Performance Report ===");
+        for (Employee e : employees) {
+            System.out.println("Name: " + e.getName() +
+                    " | ID: " + e.getEmployeeId() +
+                    " | Books Added: " + e.getBooksAdded() +
+                    " | Books Borrowed: " + e.getBooksBorrowed() +
+                    " | Books Received: " + e.getBooksReceived());
+        }
+    }
+
 
     public void displayEmployees() {
         if (employees.isEmpty()) {

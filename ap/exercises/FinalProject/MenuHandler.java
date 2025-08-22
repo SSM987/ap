@@ -87,6 +87,7 @@ public class MenuHandler {
 
         if (emp != null) {
             System.out.println("Login successful! Welcome, " + emp.getName());
+            librarySystem.setCurrentEmployeeId(emp.getEmployeeId());
             displayEmployeeMenu(emp);
         } else {
             System.out.println("Invalid information. try again.");
@@ -208,7 +209,8 @@ public class MenuHandler {
         while (true) {
             System.out.println("\n=== Manager Dashboard ===");
             System.out.println("1. Add Employee");
-            System.out.println("2. Back to Main Menu");
+            System.out.println("2. View Employee Performance");
+            System.out.println("3. Back to Main Menu");
             System.out.print("Enter your choice: ");
             int choice = getIntInput(1, 3);
 
@@ -225,9 +227,16 @@ public class MenuHandler {
                     librarySystem.getEmployeeManager().addEmployee(name, empId, uname, pass);
                     break;
                 case 2:
+                    viewEmployeePerformance();
+                    break;
+                case 3:
                     return;
             }
         }
+    }
+    private void viewEmployeePerformance() {
+        System.out.println("\n--- Employee Performance ---");
+        librarySystem.displayEmployeePerformance();
     }
     private void handleStudentLogin() {
         System.out.println("\n--- Student Login ---");
@@ -251,20 +260,20 @@ public class MenuHandler {
         System.out.println("\n--- Pending Borrow Requests Management ---");
         librarySystem.displayPendingBorrows();
         if (librarySystem.hasPendingBorrowRequests()) {
-        System.out.print("\nDo you want to approve a borrow request? (y/n): ");
-        String response = scanner.nextLine();
+            System.out.print("\nDo you want to approve a borrow request? (y/n): ");
+            String response = scanner.nextLine();
 
-        if (response.equalsIgnoreCase("y")) {
-            System.out.print("Enter student ID: ");
-            String studentId = scanner.nextLine();
+            if (response.equalsIgnoreCase("y")) {
+                System.out.print("Enter student ID: ");
+                String studentId = scanner.nextLine();
 
-            System.out.print("Enter book title: ");
-            String bookTitle = scanner.nextLine();
+                System.out.print("Enter book title: ");
+                String bookTitle = scanner.nextLine();
 
-            librarySystem.approveBorrowRequest(studentId, bookTitle);
-        } else {
-            System.out.println("No pending borrow requests to approve.");
-        }
+                librarySystem.approveBorrowRequest(studentId, bookTitle);
+            } else {
+                System.out.println("No pending borrow requests to approve.");
+            }
         }
     }
 
@@ -346,7 +355,7 @@ public class MenuHandler {
         System.out.println("\n--- Receive Borrowed Book ---");
         librarySystem.displayUnreceivedBorrows();
 
-        if (!hasUnreceivedBorrows()) {
+        if (!librarySystem.hasUnreceivedBorrows()) {
             System.out.println("No unreceived borrows to process.");
             return;
         }

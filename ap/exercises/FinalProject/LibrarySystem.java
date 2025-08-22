@@ -1,6 +1,5 @@
 package ap.exercises.FinalProject;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ public class LibrarySystem {
     private MenuHandler menuHandler;
     private BorrowManager borrowManager;
     private EmployeeManager employeeManager;
+    private String currentEmployeeId;
 
     public LibrarySystem() {
         this.studentManager = new StudentManager();
@@ -17,6 +17,30 @@ public class LibrarySystem {
         this.menuHandler = new MenuHandler(this);
         this.borrowManager = new BorrowManager(bookManager);
         this.employeeManager = new EmployeeManager();
+    }
+    public void setCurrentEmployeeId(String employeeId) {
+        this.currentEmployeeId = employeeId;
+    }
+
+    public void incrementEmployeeBooksAdded() {
+        if (currentEmployeeId != null) {
+            employeeManager.increaseEmployeeBooksAdded(currentEmployeeId);
+        }
+    }
+
+    public void incrementEmployeeBooksBorrowed() {
+        if (currentEmployeeId != null) {
+            employeeManager.increaseEmployeeBooksBorrowed(currentEmployeeId);
+        }
+    }
+    public void incrementEmployeeBooksReceived() {
+        if (currentEmployeeId != null) {
+            employeeManager.increaseEmployeeBooksReceived(currentEmployeeId);
+        }
+    }
+
+    public void displayEmployeePerformance() {
+        employeeManager.displayEmployeePerformance();
     }
 
     public int getStudentCount() {
@@ -49,9 +73,11 @@ public class LibrarySystem {
     }
     public void addBook(String title, String author, int year) {
         bookManager.addBook(new Book(title, author, year));
+        incrementEmployeeBooksAdded();
     }
     public void approveBorrowRequest(String studentId, String bookTitle) {
         borrowManager.approveBorrowRequest(studentId, bookTitle);
+        incrementEmployeeBooksBorrowed();
     }
     public void displayPendingBorrows() {
         borrowManager.displayPendingBorrows();
@@ -61,6 +87,7 @@ public class LibrarySystem {
     }
     public void markBookAsReceived(String studentId, String bookTitle, String receiveDate) {
         borrowManager.markBookAsReceived(studentId, bookTitle, receiveDate);
+        incrementEmployeeBooksReceived();
     }
 
     public void displayUnreceivedBorrows() {
