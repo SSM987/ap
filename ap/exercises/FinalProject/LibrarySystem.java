@@ -118,6 +118,9 @@ public class LibrarySystem {
     public Map<String, Integer> getStudentBorrowStatistics(String studentId) {
         return borrowManager.getStudentBorrowStatistics(studentId);
     }
+    public List<Map.Entry<String, Integer>> getTopStudentsWithMostDelays(int limit) {
+        return borrowManager.getTopStudentsWithMostDelays(limit);
+    }
     public void setStudentActiveStatus(String studentId, boolean active) {
         studentManager.setStudentActiveStatus(studentId, active);
     }

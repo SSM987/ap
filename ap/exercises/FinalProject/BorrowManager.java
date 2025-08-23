@@ -80,12 +80,6 @@ public class BorrowManager {
             System.out.println(borrow);
         }
     }
-
-    public void showBorrows() {
-        for (Borrow b : borrows) {
-            System.out.println(b);
-        }
-    }
     public List<Borrow> getBorrowHistoryByStudent(String studentId) {
         List<Borrow> studentBorrows = new ArrayList<>();
         for (Borrow borrow : borrows) {
@@ -105,22 +99,26 @@ public class BorrowManager {
         int delayedReturnCount = 0;
         int notReceivedCount = 0;
 
-        LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
         for (Borrow borrow : studentBorrows) {
-            LocalDate endDate = LocalDate.parse(borrow.getEndDate(), formatter);
-
-            if (isBookStillBorrowed(borrow.getBookTitle())) {
+            if (borrow.getReturnDate() == null) {
                 notReturnedCount++;
-            }
-
-            if (endDate.isBefore(today) && !isBookStillBorrowed(borrow.getBookTitle())) {
-                delayedReturnCount++;
             }
 
             if (!borrow.isReceived()) {
                 notReceivedCount++;
+            }
+            if (borrow.getReturnDate() != null && borrow.getReceiveDate() != null) {
+                try {
+                    LocalDate endDate = LocalDate.parse(borrow.getEndDate(), formatter);
+                    LocalDate returnDate = LocalDate.parse(borrow.getReturnDate(), formatter);
+
+                    if (returnDate.isAfter(endDate)) {
+                        delayedReturnCount++;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error calculating delay for: " + borrow.getBookTitle());
+                }
             }
         }
 
@@ -139,17 +137,6 @@ public class BorrowManager {
         }
         return false;
     }
-
-    private boolean isBookStillBorrowed(String bookTitle) {
-        for (Book book : bookManager.getBooks()) {
-            if (book.getTitle().equalsIgnoreCase(bookTitle) && book.isBorrowed()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     public void returnBook(String studentId, String bookTitle, String returnDate) {
         Borrow target = null;
         for (Borrow b : borrows) {
@@ -209,6 +196,32 @@ public class BorrowManager {
         for (int i = borrows.size() - 1; i >= start; i--) {
             System.out.println(borrows.get(i));
         }
+    }
+    public List<Map.Entry<String, Integer>> getTopStudentsWithMostDelays(int limit) {
+        Map<String, Integer> studentDelays = new HashMap<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (Borrow borrow : borrows) {
+            if (borrow.getReturnDate() != null) {
+                try {
+                    LocalDate endDate = LocalDate.parse(borrow.getEndDate(), formatter);
+                    LocalDate returnDate = LocalDate.parse(borrow.getReturnDate(), formatter);
+
+                    if (returnDate.isAfter(endDate)) {
+                        String studentId = borrow.getStudentId();
+                        studentDelays.put(studentId, studentDelays.getOrDefault(studentId, 0) + 1);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error calculating delay for student: " + borrow.getStudentId());
+                }
+            }
+        }
+
+        List<Map.Entry<String, Integer>> sortedDelays = new ArrayList<>(studentDelays.entrySet());
+        sortedDelays.sort((a, b) -> b.getValue().compareTo(a.getValue()));
+
+        return sortedDelays.subList(0, Math.min(limit, sortedDelays.size()));
     }
     public Map<String, Object> getBorrowStatistics() {
         Map<String, Object> stats = new HashMap<>();

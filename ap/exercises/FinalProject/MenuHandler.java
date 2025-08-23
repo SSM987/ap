@@ -65,9 +65,9 @@ public class MenuHandler {
     }
     private void handleManagerLogin() {
         System.out.println("\n--- Manager Login ---");
-        System.out.print("Enter admin username: ");
+        System.out.print("Enter Manager username: ");
         String username = scanner.nextLine();
-        System.out.print("Enter admin password: ");
+        System.out.print("Enter Manager password: ");
         String password = scanner.nextLine();
 
         if (username.equals("Sepehr") && password.equals("Mousavi")) {
@@ -211,9 +211,10 @@ public class MenuHandler {
             System.out.println("1. Add Employee");
             System.out.println("2. View Employee Performance");
             System.out.println("3. View Borrow Statistical information");
-            System.out.println("4. Back to Main Menu");
+            System.out.println("4. View Student Borrow Reports");
+            System.out.println("5. Back to Main Menu");
             System.out.print("Enter your choice: ");
-            int choice = getIntInput(1, 4);
+            int choice = getIntInput(1, 5);
 
             switch (choice) {
                 case 1:
@@ -234,8 +235,81 @@ public class MenuHandler {
                     viewBorrowStatistics();
                     break;
                 case 4:
+                    viewStudentBorrowReports();
+                    break;
+                case 5:
                     return;
             }
+        }
+    }
+    private void viewStudentBorrowReports() {
+        while (true) {
+            System.out.println("\n=== Student Borrow Reports ===");
+            System.out.println("1. View Student Borrow History and Statistics");
+            System.out.println("2. View Top 10 Students with Most Delays");
+            System.out.println("3. Back to Manager Menu");
+            System.out.print("Enter your choice: ");
+
+            int choice = getIntInput(1, 3);
+
+            switch (choice) {
+                case 1:
+                    viewStudentReport();
+                    break;
+                case 2:
+                    viewTopStudentsWithDelays();
+                    break;
+                case 3:
+                    return;
+            }
+        }
+    }
+    private void viewStudentReport() {
+        System.out.println("\n--- Student Borrow History and Statistics ---");
+        System.out.print("Enter Student ID: ");
+        String studentId = scanner.nextLine();
+
+        List<Borrow> borrowHistory = librarySystem.getStudentBorrowHistory(studentId);
+        Map<String, Integer> stats = librarySystem.getStudentBorrowStatistics(studentId);
+
+        if (borrowHistory.isEmpty()) {
+            System.out.println("No borrow history found for student ID: " + studentId);
+            return;
+        }
+
+        System.out.println("\n--- Borrow History for Student ID: " + studentId + " ---");
+        for (Borrow borrow : borrowHistory) {
+            System.out.println(borrow);
+        }
+
+        System.out.println("\n--- Borrow Statistics ---");
+        System.out.println("Total Borrows: " + stats.get("totalBorrows"));
+        System.out.println("Not Received Yet: " + stats.get("notReceived"));
+        System.out.println("Not Returned Yet: " + stats.get("notReturned"));
+        System.out.println("Delayed Returns: " + stats.get("delayedReturns"));
+
+        if (stats.get("totalBorrows") > 0) {
+            double delayedPercentage = (double) stats.get("delayedReturns") / stats.get("totalBorrows") * 100;
+            System.out.printf("Delayed Return Percentage: %.2f%%\n", delayedPercentage);
+        }
+    }
+
+    private void viewTopStudentsWithDelays() {
+        System.out.println("\n--- Top 10 Students with Most Delays ---");
+
+        List<Map.Entry<String, Integer>> topDelays = librarySystem.getTopStudentsWithMostDelays(10);
+
+        if (topDelays.isEmpty()) {
+            System.out.println("No delayed returns found.");
+            return;
+        }
+
+        System.out.println("Rank | Student ID | Number of Delays");
+        System.out.println("------------------------------------");
+
+        int rank = 1;
+        for (Map.Entry<String, Integer> entry : topDelays) {
+            System.out.printf("%2d   | %-10s | %d%n", rank++, entry.getKey(), entry.getValue());
         }
     }
     private void viewBorrowStatistics() {
@@ -375,9 +449,6 @@ public class MenuHandler {
                     System.out.println("Invalid option! Please try again.");
             }
         }
-    }
-    private boolean hasUnreceivedBorrows() {
-        return librarySystem.hasUnreceivedBorrows();
     }
     private void receiveBorrowedBook() {
         System.out.println("\n--- Receive Borrowed Book ---");

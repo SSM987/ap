@@ -1,5 +1,9 @@
 package ap.exercises.FinalProject;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 public class Borrow {
     private String studentId;
     private String bookTitle;
@@ -60,11 +64,29 @@ public class Borrow {
 
         if (isReceived && receiveDate != null) {
             status += " | Received on: " + receiveDate;
+        } else {
+            status += " | Not received yet";
         }
+
         if (returnDate != null) {
             status += " | Returned on: " + returnDate;
+
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate end = LocalDate.parse(endDate, formatter);
+                LocalDate returned = LocalDate.parse(returnDate, formatter);
+
+                if (returned.isAfter(end)) {
+                    long daysLate = ChronoUnit.DAYS.between(end, returned);
+                    status += " | Delayed by: " + daysLate + " days";
+                }
+            } catch (Exception e) {
+
+            }
+        } else {
+            status += " | Not returned yet";
         }
 
         return status;
     }
-}
+    }
