@@ -148,6 +148,9 @@ public class LibrarySystem {
     public void displayRecentBorrows(int limit) {
         borrowManager.displayRecentBorrows(limit);
     }
+    public Map<String, Object> getBorrowStatistics() {
+        return borrowManager.getBorrowStatistics();
+    }
 
 
     public void start() {

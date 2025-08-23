@@ -210,9 +210,10 @@ public class MenuHandler {
             System.out.println("\n=== Manager Dashboard ===");
             System.out.println("1. Add Employee");
             System.out.println("2. View Employee Performance");
-            System.out.println("3. Back to Main Menu");
+            System.out.println("3. View Borrow Statistical information");
+            System.out.println("4. Back to Main Menu");
             System.out.print("Enter your choice: ");
-            int choice = getIntInput(1, 3);
+            int choice = getIntInput(1, 4);
 
             switch (choice) {
                 case 1:
@@ -230,11 +231,38 @@ public class MenuHandler {
                     viewEmployeePerformance();
                     break;
                 case 3:
+                    viewBorrowStatistics();
+                    break;
+                case 4:
                     return;
             }
         }
     }
-    private void viewEmployeePerformance() {
+    private void viewBorrowStatistics() {
+        System.out.println("\n=== Borrow Statistics Report ===");
+
+        Map<String, Object> stats = librarySystem.getBorrowStatistics();
+
+        System.out.println("Total Borrow Requests: " + stats.get("totalBorrowRequests"));
+        System.out.println("  - Approved Borrows: " + stats.get("totalBorrowed"));
+        System.out.println("  - Pending Requests: " + stats.get("pendingRequests"));
+        System.out.println("Total Returned Books: " + stats.get("totalReturned"));
+        System.out.println("Average Borrow Days: "
+                + String.format("%.2f", (double) stats.get("averageBorrowDays"))
+                + " days");
+
+        System.out.println("Calculated Returns: " + stats.get("calculatedReturns"));
+
+        int totalBorrowed = (int) stats.get("totalBorrowed");
+        int totalReturned = (int) stats.get("totalReturned");
+
+        if (totalBorrowed > 0) {
+            double returnPercentage = (double) totalReturned / totalBorrowed * 100;
+            System.out.printf("Return Percentage: %.2f%%\n", returnPercentage);
+        }
+    }
+
+            private void viewEmployeePerformance() {
         System.out.println("\n--- Employee Performance ---");
         librarySystem.displayEmployeePerformance();
     }

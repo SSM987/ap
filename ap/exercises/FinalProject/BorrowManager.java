@@ -1,6 +1,7 @@
 package ap.exercises.FinalProject;
 
 import java.io.*;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -208,6 +209,55 @@ public class BorrowManager {
         for (int i = borrows.size() - 1; i >= start; i--) {
             System.out.println(borrows.get(i));
         }
+    }
+    public Map<String, Object> getBorrowStatistics() {
+        Map<String, Object> stats = new HashMap<>();
+
+        int totalBorrowRequests = borrows.size() + pendingBorrows.size();
+        int totalBorrowed = borrows.size();
+        int totalReturned = 0;
+        long totalBorrowDays = 0;
+        int calculatedReturns = 0;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (Borrow borrow : borrows) {
+            if (borrow.getReturnDate() != null && borrow.getReceiveDate() != null) {
+                try {
+                    LocalDate receiveDate = LocalDate.parse(borrow.getReceiveDate(), formatter);
+                    LocalDate returnDate = LocalDate.parse(borrow.getReturnDate(), formatter);
+
+                    long borrowDays = ChronoUnit.DAYS.between(receiveDate, returnDate);
+                    totalBorrowDays += borrowDays;
+                    totalReturned++;
+                    calculatedReturns++;
+                } catch (Exception e) {
+                    System.out.println("Error calculating borrow days for: " + borrow.getBookTitle());
+                }
+            }
+            else if (borrow.getReceiveDate() != null && borrow.getReturnDate() == null) {
+                try {
+                    LocalDate receiveDate = LocalDate.parse(borrow.getReceiveDate(), formatter);
+                    LocalDate today = LocalDate.now();
+
+                    long borrowDays = ChronoUnit.DAYS.between(receiveDate, today);
+                    totalBorrowDays += borrowDays;
+                    calculatedReturns++;
+                } catch (Exception e) {
+                    System.out.println("Error calculating current borrow days for: " + borrow.getBookTitle());
+                }
+            }
+        }
+
+        double averageBorrowDays = calculatedReturns > 0 ? (double) totalBorrowDays / calculatedReturns : 0;
+
+        stats.put("totalBorrowRequests", totalBorrowRequests);
+        stats.put("totalBorrowed", totalBorrowed);
+        stats.put("totalReturned", totalReturned);
+        stats.put("averageBorrowDays", averageBorrowDays);
+        stats.put("pendingRequests", pendingBorrows.size());
+
+        return stats;
     }
 
     private void saveBorrows() {
